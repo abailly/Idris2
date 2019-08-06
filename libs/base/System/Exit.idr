@@ -28,16 +28,16 @@ exit code = schemeCall a "exit" [ code ]
 |||
 ||| @code The `ExitCode` for program.
 export
-exitWith : (code : ExitCode) -> IO a
-exitWith ExitSuccess         = exit 0
+exitWith : {a : Type} -> ExitCode -> IO a
+exitWith ExitSuccess         = exit {a} 0
 exitWith (ExitFailure errNo) = exit errNo
 
 ||| Exit the program indicating failure.
 export
-exitFailure : IO a
+exitFailure : {a : Type} -> IO a
 exitFailure = exitWith (ExitFailure 1)
 
 ||| Exit the program after a successful run.
 export
-exitSuccess : IO a
+exitSuccess : {a : Type} -> IO a
 exitSuccess = exitWith ExitSuccess
