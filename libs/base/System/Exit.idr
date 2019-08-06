@@ -19,8 +19,8 @@ data ExitCode : Type where
 
 ||| Quit with a particular exit code
 ||| For chez scheme, see: http://cisco.github.io/ChezScheme/csug9.5/system.html#./system:s161
-exit : {a : Type} -> Int -> IO a
-exit code = schemeCall a "exit" [ code ]
+exit : Int -> IO a
+exit code = schemeCall Void "exit" [ code ] >>= void
 
 ||| Terminate the program with an `ExitCode`. This code indicates the
 ||| success of the program's execution, and returns the success code
@@ -28,16 +28,16 @@ exit code = schemeCall a "exit" [ code ]
 |||
 ||| @code The `ExitCode` for program.
 export
-exitWith : {a : Type} -> ExitCode -> IO a
-exitWith ExitSuccess         = exit {a} 0
+exitWith : ExitCode -> IO a
+exitWith ExitSuccess         = exit 0
 exitWith (ExitFailure errNo) = exit errNo
 
 ||| Exit the program indicating failure.
 export
-exitFailure : {a : Type} -> IO a
+exitFailure : IO a
 exitFailure = exitWith (ExitFailure 1)
 
 ||| Exit the program after a successful run.
 export
-exitSuccess : {a : Type} -> IO a
+exitSuccess : IO a
 exitSuccess = exitWith ExitSuccess
