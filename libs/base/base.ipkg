@@ -26,5 +26,6 @@ modules = Control.Monad.Identity,
 
           System,
           System.Concurrency.Raw,
+          System.Exit,
           System.File,
           System.REPL
